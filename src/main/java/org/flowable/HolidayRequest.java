@@ -1,6 +1,5 @@
 package org.flowable;
 
-import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +27,7 @@ import org.flowable.engine.task.Task;
 @SuppressWarnings({"squid:S106", "squid:S3776"})
 public class HolidayRequest {
 
-    public static void main(String[] args) throws ParseException {
+    public static void main(String[] args) {
         //creates the Process Engine using a memory-based h2 embedded database
         ProcessEngineConfiguration cfg =
                 new StandaloneProcessEngineConfiguration()
@@ -121,7 +120,7 @@ public class HolidayRequest {
         }
 
         System.out.println("Which task would you like to complete?");
-        int taskIndex = Integer.valueOf(scanner.nextLine());
+        int taskIndex = Integer.parseInt(scanner.nextLine());
         Task task = tasks.get(taskIndex - 1);
         Map<String, Object> processVariables =
                 taskService.getVariables(task.getId());
@@ -130,7 +129,7 @@ public class HolidayRequest {
                         "nrOfHolidays") + " of holidays. Do you approve this?");
 
 
-        boolean approved = scanner.nextLine().toLowerCase().equals("y");
+        boolean approved = scanner.nextLine().equalsIgnoreCase("y");
         variables = new HashMap<>();
         variables.put("approved", approved);
         taskService.complete(task.getId(), variables);
